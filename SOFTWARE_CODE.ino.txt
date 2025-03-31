@@ -1,0 +1,53 @@
+#define BUZ D2
+
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(BUZ,OUTPUT);
+  digitalWrite(BUZ,LOW);
+}
+
+void loop() 
+{
+  int fire=analogRead(A0);
+
+  Serial.print("FIRE :");
+  Serial.println(fire);
+  delay(500);
+
+  if(fire>=500)
+  {
+    digitalWrite(BUZ,HIGH);
+    SMS();
+    delay(5000);
+    call();
+    delay(5000);
+    Serial.print("FIRE DETECTED");
+    digitalWrite(BUZ,LOW);
+     
+  }
+
+  
+
+}
+
+
+
+void SMS()
+  {
+  Serial.println("AT+CMGF=1");
+  delay(1000);  
+  Serial.println("AT+CMGS=\"+91**********\"\r"); 
+  delay(1000);
+  Serial.print("EMERGENCY :FIRE DETECTED ");
+  delay(100);
+  Serial.println((char)26);
+  delay(1000);
+}
+
+
+void call()
+{
+    Serial.println("ATD+91**********;");
+    delay(1000);
+}
